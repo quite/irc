@@ -88,6 +88,8 @@ pub struct Config {
     pub use_ssl: Option<bool>,
     /// The path to the SSL certificate for this server in DER format.
     pub cert_path: Option<String>,
+    /// Whether or not to do danger_accept_invalid_certs().
+    pub insecure: Option<bool>,
     /// The path to a SSL certificate to use for CertFP client authentication in DER format.
     pub client_cert_path: Option<String>,
     /// The password for the certificate to use in CertFP authentication.
@@ -421,6 +423,12 @@ impl Config {
     /// Gets the path to the SSL certificate in DER format if specified.
     pub fn cert_path(&self) -> Option<&str> {
         self.cert_path.as_ref().map(|s| &s[..])
+    }
+
+    /// Gets whether or not to do danger_accept_invalid_certs().
+    /// This defaults to false when not specified.
+    pub fn insecure(&self) -> bool {
+        self.insecure.as_ref().cloned().unwrap_or(false)
     }
 
     /// Gets the path to the client authentication certificate in DER format if specified.

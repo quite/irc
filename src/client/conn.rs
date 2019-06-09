@@ -147,6 +147,9 @@ impl Connection {
                 builder.identity(pkcs12_archive);
                 info!("Using {} for client certificate authentication.", client_cert_path);
             }
+            if config.insecure() {
+                builder.danger_accept_invalid_certs(true);
+            }
             let connector: tokio_tls::TlsConnector = builder.build()?.into();
             let stream = Box::new(TcpStream::connect(&config.socket_addr()?, handle).map_err(|e| {
                 let res: error::IrcError = e.into();
