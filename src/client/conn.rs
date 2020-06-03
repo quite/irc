@@ -184,6 +184,10 @@ impl Connection {
             );
         }
 
+        if config.insecure() {
+            builder.danger_accept_invalid_certs(true);
+        }
+
         let connector: tokio_tls::TlsConnector = builder.build()?.into();
         let domain = config.server()?;
 
